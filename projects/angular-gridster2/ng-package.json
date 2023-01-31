@@ -1,6 +1,10 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/angular-gridster2",
+"assets": [
+"./assets/gridster-styles.css"
+},
+
   "lib": {
     "entryFile": "src/public_api.ts"
   }

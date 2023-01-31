@@ -11,8 +11,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  SimpleChanges,
-  ViewEncapsulation
+  SimpleChanges
 } from '@angular/core';
 import { debounceTime, Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { GridsterComponentInterface } from './gridster.interface';
@@ -34,14 +33,11 @@ import { GridsterUtils } from './gridsterUtils.service';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'gridster',
   templateUrl: './gridster.html',
-  styleUrls: ['./gridster.css'],
-  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [NgForOf, NgStyle, GridsterPreviewComponent]
 })
 export class GridsterComponent
-  implements OnInit, OnChanges, OnDestroy, GridsterComponentInterface
-{
+  implements OnInit, OnChanges, OnDestroy, GridsterComponentInterface {
   @Input() options: GridsterConfig;
   movingItem: GridsterItem | null;
   el: HTMLElement;
@@ -490,7 +486,7 @@ export class GridsterComponent
         itemComponent.notPlaced = true;
         console.warn(
           "Can't be placed in the bounds of the dashboard, trying to auto position!/n" +
-            JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y'])
+          JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y'])
         );
       }
       if (!this.$options.disableAutoPositionOnConflict) {
@@ -616,7 +612,7 @@ export class GridsterComponent
       if (!this.$options.disableWarnings) {
         console.warn(
           "Can't be placed in the bounds of the dashboard!/n" +
-            JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y'])
+          JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y'])
         );
       }
     }

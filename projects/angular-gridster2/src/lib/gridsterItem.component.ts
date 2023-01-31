@@ -12,8 +12,7 @@ import {
   OnInit,
   Output,
   Renderer2,
-  SimpleChanges,
-  ViewEncapsulation
+  SimpleChanges
 } from '@angular/core';
 import { GridsterComponent } from './gridster.component';
 
@@ -28,14 +27,11 @@ import { GridsterUtils } from './gridsterUtils.service';
 @Component({
   selector: 'gridster-item',
   templateUrl: './gridsterItem.html',
-  styleUrls: ['./gridsterItem.css'],
-  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [NgIf]
 })
 export class GridsterItemComponent
-  implements OnInit, OnDestroy, OnChanges, GridsterItemComponentInterface
-{
+  implements OnInit, OnDestroy, OnChanges, GridsterItemComponentInterface {
   @Input() item: GridsterItem;
   @Output() itemInit = new EventEmitter<{
     item: GridsterItem;

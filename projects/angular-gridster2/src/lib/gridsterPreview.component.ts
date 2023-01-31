@@ -5,8 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Renderer2,
-  ViewEncapsulation
+  Renderer2
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GridsterItem } from './gridsterItem.interface';
@@ -15,8 +14,6 @@ import { GridsterRenderer } from './gridsterRenderer.service';
 @Component({
   selector: 'gridster-preview',
   template: '',
-  styleUrls: ['./gridsterPreview.css'],
-  encapsulation: ViewEncapsulation.None,
   standalone: true
 })
 export class GridsterPreviewComponent implements OnInit, OnDestroy {
@@ -36,7 +33,7 @@ export class GridsterPreviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.sub) {
+    if (this.sub) {
       this.sub.unsubscribe();
     }
   }
