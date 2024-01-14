@@ -1,13 +1,13 @@
 # angular-gridster2
 
 [![npm version](https://badge.fury.io/js/angular-gridster2.svg)](https://badge.fury.io/js/angular-gridster2)
-![Node CI](https://github.com/tiberiuzuld/angular-gridster2/workflows/Node%20CI/badge.svg)
+![Node CI](https://github.com/tiberiuzuld/angular-gridster2/actions/workflows/deploy-demo.yml/badge.svg)
 [![downloads](https://img.shields.io/npm/dm/angular-gridster2.svg)](https://www.npmjs.com/package/angular-gridster2)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/tiberiuzuld)
 
 ### Angular implementation of angular-gridster [Demo](http://tiberiuzuld.github.io/angular-gridster2)
 
-### Requires Angular 15.x
+### Requires Angular 17.x
 
 ### For other Angular versions check the other branches.
 
@@ -93,24 +93,12 @@ Option 1 (without text selection):
 
 ```html
 <gridster-item>
-  <div
-    (mousedown)="$event.stopPropagation()"
-    (touchstart)="$event.stopPropagation()"
-  >
-    Some content to click without dragging the widget
-  </div>
+  <div (mousedown)="$event.stopPropagation()" (touchstart)="$event.stopPropagation()">Some content to click without dragging the widget</div>
   <div class="item-buttons">
     <button md-icon-button md-raised-button class="drag-handler">
       <md-icon>open_with</md-icon>
     </button>
-    <button
-      md-icon-button
-      md-raised-button
-      class="remove-button"
-      (click)="removeItem($event, item)"
-      (touchstart)="removeItem($event, item)"
-      mdTooltip="Remove"
-    >
+    <button md-icon-button md-raised-button class="remove-button" (click)="removeItem($event, item)" (touchstart)="removeItem($event, item)" mdTooltip="Remove">
       <md-icon>clear</md-icon>
     </button>
   </div>
@@ -121,21 +109,12 @@ Option 2 (with text selection):
 
 ```html
 <gridster-item>
-  <div class="gridster-item-content">
-    Some content to select and click without dragging the widget
-  </div>
+  <div class="gridster-item-content">Some content to select and click without dragging the widget</div>
   <div class="item-buttons">
     <button md-icon-button md-raised-button class="drag-handler">
       <md-icon>open_with</md-icon>
     </button>
-    <button
-      md-icon-button
-      md-raised-button
-      class="remove-button"
-      (click)="removeItem($event, item)"
-      (touchstart)="removeItem($event, item)"
-      mdTooltip="Remove"
-    >
+    <button md-icon-button md-raised-button class="remove-button" (click)="removeItem($event, item)" (touchstart)="removeItem($event, item)" mdTooltip="Remove">
       <md-icon>clear</md-icon>
     </button>
   </div>

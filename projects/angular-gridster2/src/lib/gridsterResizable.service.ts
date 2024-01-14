@@ -57,6 +57,10 @@ export class GridsterResizable {
   diffRight: number;
   diffBottom: number;
   margin: number;
+  outerMarginTop: number | null;
+  outerMarginRight: number | null;
+  outerMarginBottom: number | null;
+  outerMarginLeft: number | null;
   originalClientX: number;
   originalClientY: number;
   top: number;
@@ -162,6 +166,10 @@ export class GridsterResizable {
     this.bottom = this.gridsterItem.top + this.gridsterItem.height;
     this.right = this.gridsterItem.left + this.gridsterItem.width;
     this.margin = this.gridster.$options.margin;
+    this.outerMarginTop = this.gridster.$options.outerMarginTop;
+    this.outerMarginRight = this.gridster.$options.outerMarginRight;
+    this.outerMarginBottom = this.gridster.$options.outerMarginBottom;
+    this.outerMarginLeft = this.gridster.$options.outerMarginLeft;
     this.offsetLeft = this.gridster.el.scrollLeft - this.gridster.el.offsetLeft;
     this.offsetTop = this.gridster.el.scrollTop - this.gridster.el.offsetTop;
     this.diffLeft = e.clientX + this.offsetLeft - this.left;
@@ -364,9 +372,13 @@ export class GridsterResizable {
     if (this.minHeight > this.height) {
       this.height = this.minHeight;
       this.top = this.bottom - this.minHeight;
+    } else if (this.gridster.options.enableBoundaryControl) {
+      this.top = Math.max(0, this.top);
+      this.height = this.bottom - this.top;
     }
+    const marginTop = this.gridster.options.pushItems ? this.margin : 0;
     this.newPosition = this.gridster.pixelsToPositionY(
-      this.top + this.margin,
+      this.top + marginTop,
       Math.floor
     );
     if (this.gridsterItem.$item.y !== this.newPosition) {
@@ -383,6 +395,7 @@ export class GridsterResizable {
       if (this.gridster.checkCollision(this.gridsterItem.$item)) {
         this.gridsterItem.$item.y = this.itemBackup[1];
         this.gridsterItem.$item.rows = this.itemBackup[3];
+        this.top = this.gridster.positionYToPixels(this.gridsterItem.$item.y);
         this.setItemTop(
           this.gridster.positionYToPixels(this.gridsterItem.$item.y)
         );
@@ -412,9 +425,13 @@ export class GridsterResizable {
     if (this.minWidth > this.width) {
       this.width = this.minWidth;
       this.left = this.right - this.minWidth;
+    } else if (this.gridster.options.enableBoundaryControl) {
+      this.left = Math.max(0, this.left);
+      this.width = this.right - this.left;
     }
+    const marginLeft = this.gridster.options.pushItems ? this.margin : 0;
     this.newPosition = this.gridster.pixelsToPositionX(
-      this.left + this.margin,
+      this.left + marginLeft,
       Math.floor
     );
     if (this.gridsterItem.$item.x !== this.newPosition) {
@@ -431,6 +448,7 @@ export class GridsterResizable {
       if (this.gridster.checkCollision(this.gridsterItem.$item)) {
         this.gridsterItem.$item.x = this.itemBackup[0];
         this.gridsterItem.$item.cols = this.itemBackup[2];
+        this.left = this.gridster.positionXToPixels(this.gridsterItem.$item.x);
         this.setItemLeft(
           this.gridster.positionXToPixels(this.gridsterItem.$item.x)
         );
@@ -455,7 +473,20 @@ export class GridsterResizable {
       this.height = this.minHeight;
     }
     this.bottom = this.top + this.height;
-    this.newPosition = this.gridster.pixelsToPositionY(this.bottom, Math.ceil);
+    if (this.gridster.options.enableBoundaryControl) {
+      const margin = this.outerMarginBottom ?? this.margin;
+      const box = this.gridster.el.getBoundingClientRect();
+      this.bottom = Math.min(
+        this.bottom,
+        box.bottom - box.top - 2 * margin
+      );
+      this.height = this.bottom - this.top;
+    }
+    const marginBottom = this.gridster.options.pushItems ? 0 : this.margin;
+    this.newPosition = this.gridster.pixelsToPositionY(
+      this.bottom + marginBottom,
+      Math.ceil
+    );
     if (
       this.gridsterItem.$item.y + this.gridsterItem.$item.rows !==
       this.newPosition
@@ -495,7 +526,17 @@ export class GridsterResizable {
       this.width = this.minWidth;
     }
     this.right = this.left + this.width;
-    this.newPosition = this.gridster.pixelsToPositionX(this.right, Math.ceil);
+    if (this.gridster.options.enableBoundaryControl) {
+      const margin = this.outerMarginRight ?? this.margin;
+      const box = this.gridster.el.getBoundingClientRect();
+      this.right = Math.min(this.right, box.right - box.left - 2 * margin);
+      this.width = this.right - this.left;
+    }
+    const marginRight = this.gridster.options.pushItems ? 0 : this.margin;
+    this.newPosition = this.gridster.pixelsToPositionX(
+      this.right + marginRight,
+      Math.ceil
+    );
     if (
       this.gridsterItem.$item.x + this.gridsterItem.$item.cols !==
       this.newPosition
